@@ -1,0 +1,39 @@
+# 【说明】此文件并不打包在 mall-tiny-docker-compose-0.0.1-SNAPSHOT.jar 里面，而是得自己拷贝此文件到 docker宿主机的 某个目录下（我这个mall项目里，就是/mydata下面），然后执行如下来启动 此应用的dockerImage
+#       docker-compose -f docker-compose-tinymall.yml up -d
+#  具体看『__mall的备注.txt』
+version: '3'
+services:
+# db部分 可以通过 docker-compose-env.yml 来做,所以这里就省去了
+#  # 指定服务名称
+#  db:
+#    # 指定服务使用的镜像
+#    image: mysql:5.7
+#    # 指定容器名称
+#    container_name: mysql
+#    # 指定服务运行的端口
+#    ports:
+#      - 3306:3306
+#    # 指定容器中需要挂载的文件
+#    volumes:
+#      - /mydata/mysql/log:/var/log/mysql
+#      - /mydata/mysql/data:/var/lib/mysql
+#      - /mydata/mysql/conf:/etc/mysql
+#    # 指定容器的环境变量
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+  # 指定服务名称
+  mall-tiny-docker-compose:
+    # 指定服务使用的镜像
+    image: mall-tiny/mall-tiny-docker-compose:0.0.1-SNAPSHOT
+    # 指定容器名称
+    container_name: mall-tiny-docker-compose
+    # 指定服务运行的端口
+    ports:
+      - 8080:8080
+    # 指定容器中需要挂载的文件
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /mydata/app/mall-tiny-docker-compose/logs:/var/logs
+    # 下面自己增加 --s.kin
+    external_links:
+      - mysql:db #可以用db这个域名访问mysql服务
